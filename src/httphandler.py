@@ -65,7 +65,7 @@ def getContractOrders(conID):
 
 # String -> Array of String (ID shiets)
 def postAddOrders(data):
-    headers = {'Content-type': 'application/json', 'X-Predictious-Key': key}
+    headers = {'Content-Type': 'application/json', 'X-Predictious-Key': key, 'Accept': 'application/json', 'Accept-Encoding':'gzip,deflate', 'Content-Length':0, 'User-Agent':'runscope/0.1'}
     req = urllib2.Request(addordersURL, data, headers)
     resp = urllib2.urlopen(req)
     content = resp.read()
@@ -75,7 +75,8 @@ def postAddOrders(data):
     
 # Array of String (ID) -> Array of Boolean (Success?)
 def postCancelOrders(data):
-    headers = {'Content-type': 'application/json', 'X-Predictious-Key': key}
+    print data
+    headers = {'Content-Type': 'application/json', 'X-Predictious-Key': key, 'Accept': 'application/json', 'Accept-Encoding':'gzip,deflate', 'Content-Length':0, 'User-Agent':'runscope/0.1'}
     req = urllib2.Request(cancelordersURL, data, headers)
     resp = urllib2.urlopen(req)
     content = resp.read()
@@ -84,6 +85,7 @@ def postCancelOrders(data):
 
 
 if __name__ == "__main__":
+    """
     previous = time.time()
     j = getWallet()
     print 'Get Orders...'
@@ -100,6 +102,8 @@ if __name__ == "__main__":
     j = getContracts()
     print 'Get Contract...'
     print 'Time: ' + str(time.time() - previous)
+    """
+    print postAddOrders("234")
 
 
 
