@@ -61,13 +61,17 @@ def get_silver():
     return float(m)
 
 def get_gold_vol():
-    base_url = 'http://www.cboe.com/DelayedQuote/SimpleQuote.aspx?ticker=GVZ'
+    base_url = 'http://finance.yahoo.com/q?s=%5EGVZ'
     content = urllib.urlopen(base_url).read()
-    anchor = '<span class="delayedQuotesShortH2Black">'
+    anchor = '<span id="yfs_l10_^gvz">'
     anchor_len = len(anchor)
-    m = re.search(anchor + '\d+.\d+',content).group(0)
-    return float(m[anchor_len:anchor_len + 5])
-    
+    pos = content.index(anchor)
+    content = content[pos + anchor_len:pos + anchor_len + 20]
+    content = content.replace(",","")
+    m = re.match(r'\d+.\d+', content).group()
+    return float(m)
+
+""" 
 def get_silver_vol():
     base_url = 'http://www.cboe.com/DelayedQuote/SimpleQuote.aspx?ticker=VXSLV'
     content = urllib.urlopen(base_url).read()
@@ -75,6 +79,18 @@ def get_silver_vol():
     anchor_len = len(anchor)
     m = re.search(anchor + '\d+.\d+',content).group(0)
     return float(m[anchor_len:anchor_len + 5])
+"""
+
+def get_silver_vol():
+    base_url = 'http://finance.yahoo.com/q?s=%5EVXSLV'
+    content = urllib.urlopen(base_url).read()
+    anchor = '<span id="yfs_l10_^vxslv">'
+    anchor_len = len(anchor)
+    pos = content.index(anchor)
+    content = content[pos + anchor_len:pos + anchor_len + 20]
+    content = content.replace(",","")
+    m = re.match(r'\d+.\d+', content).group()
+    return float(m)
 
 def get_dji():
     'returns the real time price of DJI'
@@ -169,18 +185,22 @@ def kitco():
 
 if __name__ == "__main__":
     previous = time.time()
+    """
     print "Dow Spot: " + str(getSpot('Dow'))
     print 'Time: ' + str(time.time() - previous)
     previous = time.time()
+    """
     print "Silver Spot: " + str(getSpot('Silver'))
     print 'Time: ' + str(time.time() - previous)
     previous = time.time()
     print "Gold Spot: " + str(getSpot('Gold'))
     print 'Time: ' + str(time.time() - previous)
     previous = time.time()
+    """
     print "Dow Vol: " + str(getVol('Dow'))
     print 'Time: ' + str(time.time() - previous)
     previous = time.time()
+    """
     print "Silver Vol: " + str(getVol('Silver'))
     print 'Time: ' + str(time.time() - previous)
     previous = time.time()
